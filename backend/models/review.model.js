@@ -1,43 +1,27 @@
 
 const mongoose = require('mongoose')
 
-const userSchema = new mongoose.Schema({
-    name : {
-        type : String,
+const reviewSchema = new mongoose.Schema({
+    user : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'User',
         required : true
     },
-    email : {
-        type : String,
+    service : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Service',
+        required : true
+    },
+    rating : {
+        type : Number,
         required : true,
-        unique : true
+        min : 1,
+        max : 5
     },
-    password : {
-        type : String,
-        required : true
-    },
-    phonePrimary : {
-        type : String,
-        required : true
-    },
-    phoneSecondary : {
+    comment : {
         type : String
-    },
-    role : {
-        type : String,
-        enum : ['user','provider'],
-        default : 'user'
-    },
-    address : {
-        type : String,
-    },
-    location : {
-        type : {
-            type : String,
-            enum : ['point'],
-        },
-        coordinates : {
-            type : [Number]
-        }
     }
+},{timestamps : true});
 
-},{timestamps : true})
+module.exports = mongoose.model('Review',reviewSchema)
+
