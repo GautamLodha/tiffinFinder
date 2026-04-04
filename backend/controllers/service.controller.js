@@ -83,7 +83,14 @@ exports.getServiceById = async (req, res) => {
         }
 
         const service = await Service.findById(id)
-            .populate('provider', 'name phonePrimary email');
+            .populate('provider', 'name phonePrimary email')
+            .populate({
+                path : 'reviews',
+                populate : {
+                    path : 'user',
+                    select : 'name'
+                }
+            })
 
         if (!service) {
             return res.status(404).json({ message: "Service not found" });
