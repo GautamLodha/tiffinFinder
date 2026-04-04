@@ -5,7 +5,8 @@ const {
     getNearbyServices,
     searchServices,
     getServiceById,
-    createService
+    createService,
+    getServicesByProvider
 } = require('../controllers/service.controller');
 const { protect, authorizeRoles } = require('../middleware/auth.middleware');
 router.get('/user', getNearbyServices);
@@ -14,6 +15,10 @@ router.get('/user/search', searchServices);
 
 router.get('/user/service/:id', getServiceById);
 
+router.get('/user/provider/:providerId',getServicesByProvider)
+
 router.post('/provider/service',protect,authorizeRoles('provider'),createService)
+
+
 
 module.exports = router;

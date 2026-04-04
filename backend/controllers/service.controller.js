@@ -1,5 +1,5 @@
 const Service = require('../models/service.model');
-
+const mongoose = require('mongoose');
 exports.getNearbyServices = async (req, res) => {
     try {
         const { lng, lat } = req.query;
@@ -44,44 +44,86 @@ exports.searchServices = async (req, res) => {
     try {
         const { query } = req.query;
 
+        // ❗ if no query → return all (fallback)
+        if (!query) {
+            const services = await Service.find()
+                .limit(20)
+                .populate('provider', 'name phonePrimary');
+
+            return res.json({ count: services.length, services });
+        }
+
         const services = await Service.find({
             $or: [
-                { title: { $regex: query, $options: 'i' } },   // service name
-                { address: { $regex: query, $options: 'i' } } // location
+                { title: { $regex: query, $options: 'i' } },     // name search
+                { address: { $regex: query, $options: 'i' } }   // location search
             ]
         })
-        .populate('provider', 'name phonePrimary');
+        .populate('provider', 'name phonePrimary')
+        .limit(20);
 
-        res.json(services);
+        res.json({
+            count: services.length,
+            services
+        });
 
     } catch (err) {
+        console.log(err);
         res.status(500).json({ message: err.message });
     }
 };
+
 exports.getServiceById = async (req, res) => {
     try {
         const { id } = req.params;
 
+        // ❗ validate id
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid service ID" });
+        }
+
         const service = await Service.findById(id)
-            .populate('provider', 'name phonePrimary email')
-            .populate({
-                path: 'reviews',
-                populate: {
-                    path: 'user',
-                    select: 'name'
-                }
-            });
+            .populate('provider', 'name phonePrimary email');
 
         if (!service) {
-            return res.status(404).json({ message: 'Service not found' });
+            return res.status(404).json({ message: "Service not found" });
         }
 
         res.json(service);
 
     } catch (err) {
+        console.log(err);
         res.status(500).json({ message: err.message });
     }
 };
+
+exports.getServicesByProvider = async (req, res) => {
+    try {
+        const { providerId } = req.params;
+
+        // ❗ validate id
+        if (!mongoose.Types.ObjectId.isValid(providerId)) {
+            return res.status(400).json({ message: "Invalid provider ID" });
+        }
+
+        const services = await Service.find({ provider: providerId })
+            .populate('provider', 'name phonePrimary email');
+
+        if (services.length === 0) {
+            return res.status(404).json({ message: "No services found for this provider" });
+        }
+
+        res.json({
+            count: services.length,
+            services
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: err.message });
+    }
+};
+
 exports.createService = async (req, res) => {
     try {
         const {
