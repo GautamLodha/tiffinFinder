@@ -4,23 +4,39 @@ exports.getNearbyServices = async (req, res) => {
     try {
         const { lng, lat } = req.query;
 
-        const services = await Service.find({
-            location: {
-                $near: {
-                    $geometry: {
-                        type: "Point",
-                        coordinates: [parseFloat(lng), parseFloat(lat)]
-                    },
-                    $maxDistance: 20000 // ✅ 20 km
-                }
-            }
-        })
-        .populate('provider', 'name phonePrimary')
-        .limit(20); // optional limit
+        let services;
 
-        res.json(services);
+        // ✅ If location is provided → geo search
+        if (lng && lat) {
+            services = await Service.find({
+                location: {
+                    $near: {
+                        $geometry: {
+                            type: "Point",
+                            coordinates: [parseFloat(lng), parseFloat(lat)]
+                        },
+                        $maxDistance: 20000 // 20 km
+                    }
+                }
+            })
+            .populate('provider', 'name phonePrimary')
+            .limit(20);
+
+        } else {
+            // ❌ If no location → show all listings
+            services = await Service.find()
+                    .sort({ rating: -1 }) // ⭐ best first
+                    .limit(20)
+                    .populate('provider', 'name phonePrimary');
+        }
+
+        res.json({
+            count: services.length,
+            services
+        });
 
     } catch (err) {
+        console.log(err);
         res.status(500).json({ message: err.message });
     }
 };

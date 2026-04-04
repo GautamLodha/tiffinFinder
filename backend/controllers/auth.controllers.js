@@ -57,11 +57,11 @@ exports.login = async (req, res) => {
 
         const user = await User.findOne({ email });
 
-        const result = await user.comparePassword(password);
-        console.log(result);
-        if(user){
-            console.log("user is here");
-        }
+        // const result = await user.comparePassword(password);
+        // console.log(result);
+        // if(user){
+        //     console.log("user is here");
+        // }
 
         if (!user || !(await user.comparePassword(password))) {
             return res.status(401).json({ message: 'Invalid credentials' });
@@ -76,6 +76,8 @@ exports.login = async (req, res) => {
         });
 
     } catch (err) {
+        console.log(err);
+        
         res.status(500).json({ message: err.message });
     }
 };
