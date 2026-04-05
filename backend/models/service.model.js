@@ -51,8 +51,10 @@ const serviceSchema = new mongoose.Schema({
             type: [Number],
         },
     },
-
-    images: [String],
+    image : {
+        type : String,
+        required : true
+    },
     reviews : [
         {
             type : mongoose.Schema.Types.ObjectId,

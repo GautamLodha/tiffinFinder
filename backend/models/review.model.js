@@ -20,7 +20,8 @@ const reviewSchema = new mongoose.Schema({
     },
     comment : {
         type : String
-    }
+    },
+    
 },{timestamps : true});
 reviewSchema.index({ user: 1, service: 1 }, { unique: true });
 module.exports = mongoose.model('Review',reviewSchema)

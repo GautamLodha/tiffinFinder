@@ -72,7 +72,6 @@ exports.searchServices = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
-
 exports.getServiceById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -103,7 +102,6 @@ exports.getServiceById = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
-
 exports.getServicesByProvider = async (req, res) => {
     try {
         const { providerId } = req.params;
@@ -130,7 +128,6 @@ exports.getServicesByProvider = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
-
 exports.createService = async (req, res) => {
     try {
         const {
@@ -143,23 +140,96 @@ exports.createService = async (req, res) => {
             lat
         } = req.body;
 
-        const service = await Service.create({
-            provider: req.user.userId, // from JWT
-            title,
-            description,
-            pricePerMonth,
-            mealType,
-            address,
-            location: {
-                type: "Point",
-                coordinates: [lng, lat]
+        // 🔥 upload image to cloudinary
+        const result = await cloudinary.uploader.upload_stream(
+            { folder: "tiffin-services" },
+            async (error, result) => {
+                if (error) throw error;
+
+                const service = await Service.create({
+                    provider: req.user.userId,
+                    title,
+                    description,
+                    pricePerMonth,
+                    mealType,
+                    address,
+                    image: result.secure_url, // ✅ store URL
+                    location: {
+                        type: "Point",
+                        coordinates: [lng, lat]
+                    }
+                });
+
+                res.status(201).json(service);
             }
+        );
+
+        result.end(req.file.buffer);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: err.message });
+    }
+};
+exports.getMyServices = async (req, res) => {
+    try {
+        const services = await Service.find({
+            provider: req.user.userId
         });
 
-        res.status(201).json({
-            message: "Service created successfully",
-            service
+        res.json({
+            count: services.length,
+            services
         });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: err.message });
+    }
+};
+exports.deleteService = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const service = await Service.findById(id);
+
+        if (!service) {
+            return res.status(404).json({ message: "Service not found" });
+        }
+
+        // ❗ ensure owner
+        if (service.provider.toString() !== req.user.userId) {
+            return res.status(403).json({ message: "Not authorized" });
+        }
+
+        await service.deleteOne();
+
+        res.json({ message: "Service deleted" });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: err.message });
+    }
+};
+exports.updateService = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        let service = await Service.findById(id);
+
+        if (!service) {
+            return res.status(404).json({ message: "Service not found" });
+        }
+
+        if (service.provider.toString() !== req.user.userId) {
+            return res.status(403).json({ message: "Not authorized" });
+        }
+
+        service = await Service.findByIdAndUpdate(id, req.body, {
+            new: true
+        });
+
+        res.json(service);
 
     } catch (err) {
         console.log(err);
