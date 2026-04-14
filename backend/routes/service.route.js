@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const {getNearbyServices,searchServices,getServiceById,createService,getServicesByProvider,getMyServices,deleteService } = require('../controllers/service.controller');
+const {getNearbyServices,searchServices,getServiceById,createService,getServicesByProvider,getMyServices,deleteService,updateService } = require('../controllers/service.controller');
 const { protect, authorizeRoles } = require('../middleware/auth.middleware');
 const upload = require('../middleware/upload.middleware.js')
 router.get('/user', getNearbyServices);

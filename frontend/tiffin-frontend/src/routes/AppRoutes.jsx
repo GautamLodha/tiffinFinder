@@ -1,8 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Signup from "../pages/auth/Signup";
-import Home from "../pages/user/Home";
 import Login from "../pages/auth/Login";
 import Landing from "../pages/landing/Landing";
+import UserHome from "../pages/user/UserHome";
+import ProviderDashboard from "../pages/provider/ProviderDashboard";
 
 export default function AppRoutes() {
   return (
@@ -14,8 +15,11 @@ export default function AppRoutes() {
         <Route path="/" element={<Landing />}></Route>
 
         {/* USER */}
-        <Route path="/" element={<Home/>} />
+        <Route path="/user" element={<UserHome/>} />
         
+        {/* Provider */}
+        <Route path="/provider" element={<ProviderDashboard/>} />
+
       </Routes>
     </BrowserRouter>
   );
