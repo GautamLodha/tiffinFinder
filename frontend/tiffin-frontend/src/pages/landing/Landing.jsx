@@ -13,12 +13,20 @@ export default function Landing() {
         {/* 🔝 Navbar */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-xl font-bold text-orange-900">Tiffin Finder</h1>
-          <button
-            onClick={() => navigate("/login")}
-            className="bg-orange-500 text-white px-4 py-1 rounded-full text-sm"
-          >
-            Login
-          </button>
+          <div className="flex justify-center gap-2">
+            <button
+              onClick={() => navigate("/login?role=customer")}
+              className="bg-orange-500 font-medium text-white px-4 py-1 rounded-full text-sm"
+            >
+              Login as a customer
+            </button>
+            <button
+              onClick={() => navigate("/login?role=provider")}
+              className="bg-orange-500 font-medium text-white px-4 py-1 rounded-full text-sm"
+            >
+              Login as a provider
+            </button>
+          </div>
         </div>
 
         {/* 🟠 HERO SECTION */}
@@ -99,43 +107,48 @@ export default function Landing() {
         </div>
 
         {/* 🚀 PROVIDER CTA */}
-        <div className="bg-white  mx-auto w-lg p-6 rounded-2xl shadow-md mb-10">
-          <h2 className="text-xl font-semibold text-gray-800">
+        <div className="bg-white mx-auto w-full max-w-lg p-5 sm:p-8 rounded-3xl shadow-lg mb-10 transition-all">
+          {/* Header: Centered on mobile, left-aligned on small screens+ */}
+          <h2 className="text-2xl font-bold text-gray-800 text-center sm:text-left leading-tight">
             Turn Your Kitchen into a Business
           </h2>
 
-          <div className="mt-4  flex flex-col sm:flex-row gap-6 items-center sm:items-start">
-            {/* Left Side: Image Container */}
+          <div className="mt-6 flex flex-col sm:flex-row gap-6 items-center">
+            {/* Images Container: Side by side, centered on mobile */}
             <div className="flex gap-3 shrink-0">
               <img
                 src={chef}
                 alt="Chef"
-                className="w-20 h-20 md:w-24 md:h-24 object-cover rounded-2xl shadow-sm"
+                className="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-2xl shadow-md border-2 border-white"
               />
               <img
                 src={food}
                 alt="Food"
-                className="w-20 h-20 md:w-24 md:h-24 object-cover rounded-2xl shadow-sm"
+                className="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-2xl shadow-md border-2 border-white"
               />
             </div>
 
-            {/* Right Side: Text Content */}
-            <div className="text-sm text-gray-600 space-y-3 flex-grow">
-              <p className="font-medium flex items-center gap-2">
-                <span className="text-lg">1️⃣</span> List your meals
-              </p>
-              <p className="font-medium flex items-center gap-2">
-                <span className="text-lg">2️⃣</span> Set pricing
-              </p>
-              <p className="font-medium flex items-center gap-2">
-                <span className="text-lg">3️⃣</span> Start earning
-              </p>
+            {/* Text Content: Centered icons/text on mobile for better balance */}
+            <div className="text-gray-600 space-y-4 flex-grow w-full">
+              <div className="flex items-center gap-3 bg-gray-50 p-2 rounded-lg sm:bg-transparent sm:p-0">
+                <span className="text-xl">1️⃣</span>
+                <p className="font-semibold text-gray-700">List your meals</p>
+              </div>
+              <div className="flex items-center gap-3 bg-gray-50 p-2 rounded-lg sm:bg-transparent sm:p-0">
+                <span className="text-xl">2️⃣</span>
+                <p className="font-semibold text-gray-700">Set pricing</p>
+              </div>
+              <div className="flex items-center gap-3 bg-gray-50 p-2 rounded-lg sm:bg-transparent sm:p-0">
+                <span className="text-xl">3️⃣</span>
+                <p className="font-semibold text-gray-700">Start earning</p>
+              </div>
             </div>
           </div>
 
+          {/* Button: Full width on mobile, auto width on small screens+ */}
           <button
             onClick={() => navigate("/signup?role=provider")}
-            className="mt-5 bg-gradient-to-r from-[#a63300] to-[#ff7a45] text-white px-6 py-3 rounded-xl"
+            className="mt-8 w-full sm:w-auto bg-gradient-to-r from-[#a63300] to-[#ff7a45] text-white px-8 py-4 rounded-2xl font-bold shadow-lg shadow-orange-200 hover:shadow-xl hover:-translate-y-0.5 transition-all active:scale-95"
           >
             Become a Tiffin Chef
           </button>

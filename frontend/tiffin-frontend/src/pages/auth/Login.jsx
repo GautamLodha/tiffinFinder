@@ -2,10 +2,13 @@ import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import heroImg from "../../assets/hero2.png"; // adjust path
 import Navbar from "../../components/Navbar";
+import { useSearchParams } from "react-router-dom";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-
+  const [searchParams] = useSearchParams()
+  console.log(searchParams.get('role'));
+  
   return (
     <div className="bg-[#f6efe6]" >
         <div className="min-h-screen w-fit bg-[#f6efe6] px-4 py-4 flex justify-center mx-auto flex-col">

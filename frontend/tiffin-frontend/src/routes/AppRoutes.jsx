@@ -4,6 +4,7 @@ import Login from "../pages/auth/Login";
 import Landing from "../pages/landing/Landing";
 import UserHome from "../pages/user/UserHome";
 import ProviderDashboard from "../pages/provider/ProviderDashboard";
+import CreateService from "../components/CreateService";
 
 export default function AppRoutes() {
   return (
@@ -19,6 +20,7 @@ export default function AppRoutes() {
         
         {/* Provider */}
         <Route path="/provider" element={<ProviderDashboard/>} />
+        <Route path="/provider/createService" element={<CreateService/>} />
 
       </Routes>
     </BrowserRouter>

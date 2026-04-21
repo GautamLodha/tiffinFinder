@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Search, Bell, Plus, Star, Edit2, Menu, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const ProviderDashboard = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const navigate = useNavigate();
   const services = [
     { id: 1, title: "Royal Maharashtrian Lunch", price: "12.50", rating: "4.9", reviews: "124", image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe", tags: ["VEG", "HOT"] },
     { id: 2, title: "North Indian Comfort Box", price: "14.00", rating: "4.7", reviews: "89", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d", tags: ["BEST SELLER"] },
@@ -78,7 +79,7 @@ const ProviderDashboard = () => {
           
           {/* Responsive Add Card */}
           <div className="border-2 border-dashed border-gray-300 rounded-[32px] md:rounded-[40px] flex flex-col items-center justify-center p-8 md:p-12 text-center hover:border-[#A63C13] group transition-all cursor-pointer min-h-[300px]">
-            <div className="bg-gray-200 p-5 rounded-full mb-4 group-hover:bg-[#A63C13] group-hover:text-white transition-colors">
+            <div onClick={()=>navigate('createService')} className="bg-gray-200 p-5 rounded-full mb-4 group-hover:bg-[#A63C13] group-hover:text-white transition-colors">
               <Plus size={28} />
             </div>
             <h4 className="font-bold text-lg mb-1">Launch a New Service</h4>
