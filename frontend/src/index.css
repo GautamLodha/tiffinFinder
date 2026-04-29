@@ -1,0 +1,41 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Bricolage+Grotesque:wght@400;700;800&family=DM+Serif+Display&family=Delius&family=Instrument+Serif:ital@0;1&family=Outfit:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@400;700&family=Syne:wght@400;700;800&display=swap');
+@import "tailwindcss";
+@theme {
+  /* Modern & Clean */
+  --font-modern: "Bricolage Grotesque", sans-serif;
+  --font-premium: "Plus Jakarta Sans", sans-serif;
+  --font-clean: "Outfit", sans-serif;
+
+  /* High Impact */
+  --font-impact: "Anton", sans-serif;
+  --font-loud: "Syne", sans-serif;
+  --font-caps: "Bebas Neue", sans-serif;
+
+  /* Elegant & Classic */
+  --font-elegant: "Playfair Display", serif;
+  --font-sharp: "Instrument Serif", serif;
+  --font-sturdy: "DM Serif Display", serif;
+
+  /* Your original choice */
+  --font-delius: "Delius", cursive;
+}
+.geo-input-container .geocoder-container input {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.75rem; /* rounded-xl */
+  background-color: #EFE9E1;
+  border: none !important;
+  outline: none !important;
+}
+
+.geo-input-container .geocoder-container {
+  border: none;
+}
+
+.geo-input-container .autocomplete-items {
+  background-color: #FFF9F2;
+  border-radius: 0.75rem;
+  margin-top: 5px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}

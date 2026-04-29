@@ -5,6 +5,9 @@ import Landing from "../pages/landing/Landing";
 import UserHome from "../pages/user/UserHome";
 import ProviderDashboard from "../pages/provider/ProviderDashboard";
 import CreateService from "../components/CreateService";
+import ServiceDetails from "../components/ServiceDetails";
+import ProviderProfile from "../components/ProviderProfile";
+import EditService from "../components/EditService";
 
 export default function AppRoutes() {
   return (
@@ -16,12 +19,15 @@ export default function AppRoutes() {
         <Route path="/" element={<Landing />}></Route>
 
         {/* USER */}
-        <Route path="/user" element={<UserHome/>} />
-        
-        {/* Provider */}
-        <Route path="/provider" element={<ProviderDashboard/>} />
-        <Route path="/provider/createService" element={<CreateService/>} />
+        <Route path="/user" element={<UserHome />} />
 
+        {/* Provider */}
+        <Route path="/provider" element={<ProviderDashboard />} />
+        <Route path="/provider/createService" element={<CreateService />} />
+
+        <Route path="/service/:id" element={<ServiceDetails />} />
+        <Route path="/provider/:providerId" element={<ProviderProfile />} />
+        <Route path="/provider/edit-service/:id" element={<EditService />} />
       </Routes>
     </BrowserRouter>
   );

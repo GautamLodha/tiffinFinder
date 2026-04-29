@@ -17,7 +17,6 @@ const userSchema = new mongoose.Schema({
     },
     phonePrimary : {
         type : String,
-        required : true
     },
     phoneSecondary : {
         type : String

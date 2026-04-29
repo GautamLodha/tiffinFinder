@@ -1,21 +1,26 @@
 const express = require('express');
+const cors = require('cors'); // Import it here
 const app = express();
 
-// middleware
+// 1. CORS MUST BE FIRST
+app.use(cors({
+  origin: 'http://localhost:5173', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true 
+}));
+
+// 2. Body Parser
 app.use(express.json());
 
-// routes
+// 3. Your routes
 const authRoutes = require('../routes/auth.route.js');
-const serviceRoutes = require('../routes/service.route.js')
-const reviewRoutes = require('../routes/review.route.js')
+const serviceRoutes = require('../routes/service.route.js');
+const reviewRoutes = require('../routes/review.route.js');
 
-// base routes
 app.use('/api/auth', authRoutes);
 app.use('/api', serviceRoutes);
-// app.user('/api/review',)
-app.use('/api/review',reviewRoutes)
+app.use('/api/review', reviewRoutes);
 
-// test route
 app.get('/', (req, res) => {
     res.send('API is running...');
 });

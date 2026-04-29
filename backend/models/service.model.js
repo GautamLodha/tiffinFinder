@@ -24,6 +24,7 @@ const serviceSchema = new mongoose.Schema({
     mealType: {
         type: String,
         enum: ['veg', 'non-veg', 'both'],
+        lowercase : true,
         default: 'veg',
     },
 
@@ -46,9 +47,11 @@ const serviceSchema = new mongoose.Schema({
         type: {
             type: String,
             enum: ['Point'],
+            default : 'Point'
         },
         coordinates: {
             type: [Number],
+            required : true
         },
     },
     image : {

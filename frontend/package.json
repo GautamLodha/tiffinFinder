@@ -10,7 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@geoapify/react-geocoder-autocomplete": "^3.0.0",
     "@tailwindcss/vite": "^4.2.2",
+    "axios": "^1.15.2",
+    "jwt-decode": "^4.0.0",
     "lucide": "^1.8.0",
     "lucide-react": "^1.8.0",
     "react": "^19.2.5",
