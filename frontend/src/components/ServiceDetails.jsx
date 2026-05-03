@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { jwtDecode } from "jwt-decode";
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ArrowLeft, Star, MapPin, Clock, Trash2, Send, MessageSquare } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Clock, Trash2, Send, MessageSquare, Phone } from 'lucide-react'; // Added Phone icon
 
 const ServiceDetails = () => {
   const { id } = useParams();
@@ -15,7 +15,6 @@ const ServiceDetails = () => {
   const [rating, setRating] = useState(5);
   const token = localStorage.getItem('token');
 
-  // Decode user ID once on mount
   useEffect(() => {
     if (token) {
       try {
@@ -27,10 +26,13 @@ const ServiceDetails = () => {
     }
   }, [token]);
 
-  // Fetch Service Details (Wrapped in useCallback to reuse after review addition)
   const fetchDetails = useCallback(async () => {
+    const token = localStorage.getItem('token');
     try {
-      const res = await axios.get(`http://localhost:5000/api/user/service/${id}`);
+      // Ensure your backend controller uses .populate('provider')
+      const res = await axios.get(`http://localhost:5000/api/user/service/${id}`, {
+        headers: { token: token }
+      });
       setService(res.data);
     } catch (err) {
       console.error("Error fetching service details:", err);
@@ -43,7 +45,6 @@ const ServiceDetails = () => {
     fetchDetails();
   }, [fetchDetails]);
 
-  // Handle Review Addition
   const handleAddReview = async (e) => {
     e.preventDefault();
     if (!token) return alert("Please login to add a review");
@@ -52,7 +53,7 @@ const ServiceDetails = () => {
     try {
       await axios.post(`http://localhost:5000/api/user/service/${id}/review`, 
         { rating, comment: reviewText },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { token: token } }
       );
       setReviewText("");
       setRating(5);
@@ -62,12 +63,11 @@ const ServiceDetails = () => {
     }
   };
 
-  // Handle Review Deletion
   const handleDeleteReview = async (reviewId) => {
     if (!window.confirm("Are you sure you want to delete this review?")) return;
     try {
       await axios.delete(`http://localhost:5000/api/review/${reviewId}`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { token: token }
       });
       fetchDetails();
     } catch (err) {
@@ -86,7 +86,6 @@ const ServiceDetails = () => {
 
   return (
     <div className="font-modern min-h-screen bg-[#FDF8F1] pb-20">
-      {/* Hero Image Section */}
       <div className="relative h-[45vh] md:h-[55vh] w-full overflow-hidden">
         <img 
           src={service.image} 
@@ -106,7 +105,6 @@ const ServiceDetails = () => {
       <div className="max-w-4xl mx-auto px-4 -mt-24 relative z-10">
         <div className="bg-white rounded-[48px] shadow-2xl shadow-orange-200/40 p-6 md:p-12 border border-orange-50 mb-10">
           
-          {/* Header Section */}
           <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-10">
             <div className="space-y-3">
               <div className="flex items-center gap-3">
@@ -134,7 +132,7 @@ const ServiceDetails = () => {
             {service.description}
           </p>
 
-          {/* Info Grid */}
+          {/* Info Grid - Updated to include Contact */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             <div className="flex items-center gap-5 p-6 bg-orange-50/30 rounded-[32px] border border-orange-50">
               <div className="bg-white p-4 rounded-2xl shadow-sm border border-orange-100">
@@ -155,9 +153,24 @@ const ServiceDetails = () => {
                 <p className="text-base font-bold text-gray-800 leading-snug">₹{service.pricePerMonth} <span className="text-gray-400 font-normal">/ month</span></p>
               </div>
             </div>
+
+            {/* Added Contact Card */}
+            <div className="flex items-center gap-5 p-6 bg-orange-50/30 rounded-[32px] border border-orange-50 md:col-span-2">
+              <div className="bg-white p-4 rounded-2xl shadow-sm border border-orange-100">
+                <Phone className="text-orange-700" size={24} />
+              </div>
+              <div>
+                <p className="text-xs text-gray-400 font-black uppercase tracking-widest mb-1">Contact Provider</p>
+                <p className="text-base font-bold text-gray-800 leading-snug">
+                  {service.provider?.phonePrimary || "Contact details not available"}
+                  {service.provider?.phoneSecondary && <span className="text-gray-400 font-normal ml-2"> / {service.provider.phoneSecondary}</span>}
+                </p>
+                <p className="text-[10px] text-orange-600 font-bold uppercase mt-1">Provider: {service.provider?.name}</p>
+              </div>
+            </div>
           </div>
 
-          {/* Review Input */}
+          {/* Review Input Section */}
           <section className="border-t border-orange-50 pt-10">
             <div className="flex items-center gap-3 mb-8">
               <MessageSquare className="text-orange-600" />
@@ -194,7 +207,7 @@ const ServiceDetails = () => {
             </form>
           </section>
 
-          {/* Reviews List */}
+          {/* Reviews List Section */}
           <div className="mt-16 space-y-8">
             <div className="flex justify-between items-center">
               <h3 className="text-2xl font-heading font-bold text-gray-900">
@@ -209,7 +222,6 @@ const ServiceDetails = () => {
               <div className="space-y-6">
                 {service.reviews.map((rev) => {
                   const isAuthor = (rev.user?._id || rev.user) === currentUserId;
-                  
                   return (
                     <div key={rev._id} className="p-8 bg-white border border-orange-50 rounded-[40px] shadow-sm hover:shadow-xl hover:shadow-orange-100 transition-all duration-300 group">
                       <div className="flex justify-between items-start">
@@ -241,9 +253,7 @@ const ServiceDetails = () => {
                           </button>
                         )}
                       </div>
-                      
                       <p className="text-gray-600 text-lg leading-relaxed mt-6 italic">"{rev.comment}"</p>
-                      
                       <div className="mt-6 pt-4 border-t border-orange-50 flex justify-between items-center text-[11px] font-black text-gray-400 uppercase tracking-widest">
                         <span>{new Date(rev.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                         {isAuthor && <span className="text-orange-600">Your Review</span>}

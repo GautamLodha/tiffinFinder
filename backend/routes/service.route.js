@@ -4,13 +4,13 @@ const router = express.Router();
 const {getNearbyServices,searchServices,getServiceById,createService,getServicesByProvider,getMyServices,deleteService,updateService, deleteReview, addReview } = require('../controllers/service.controller');
 const { protect, authorizeRoles } = require('../middleware/auth.middleware');
 const upload = require('../middleware/upload.middleware.js')
-router.get('/user', getNearbyServices);
+router.get('/user',protect ,getNearbyServices);
 
-router.get('/user/search', searchServices);
+router.get('/user/search', protect,searchServices);
 
-router.get('/user/service/:id', getServiceById);
+router.get('/user/service/:id',protect ,getServiceById);
 
-router.get('/user/provider/:providerId',getServicesByProvider)
+router.get('/user/provider/:providerId',protect,getServicesByProvider)
 
 router.post('/provider/service',protect,authorizeRoles('provider'),upload.single('image'),createService)
 

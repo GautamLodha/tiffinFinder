@@ -45,25 +45,22 @@ exports.getNearbyServices = async (req, res) => {
 };
 exports.searchServices = async (req, res) => {
     try {
-        const { query } = req.query;
+        const { query, category } = req.query; // Extract category (mealType) from query params
+        let filter = {};
 
-        // ❗ if no query → return all (fallback)
-        if (!query) {
-            const services = await Service.find()
-                .limit(20)
-                .populate('provider', 'name phonePrimary');
-
-            return res.json({ count: services.length, services });
+        if (query) {
+            filter.$or = [
+                { title: { $regex: query, $options: 'i' } },
+                { address: { $regex: query, $options: 'i' } }
+            ];
+        }
+        if (category && category !== 'all') {
+            filter.mealType = category.toLowerCase();
         }
 
-        const services = await Service.find({
-            $or: [
-                { title: { $regex: query, $options: 'i' } },     // name search
-                { address: { $regex: query, $options: 'i' } }   // location search
-            ]
-        })
-        .populate('provider', 'name phonePrimary')
-        .limit(20);
+        const services = await Service.find(filter)
+            .populate('provider', 'name phonePrimary phoneSecondary') // Included both phones as requested
+            .limit(20);
 
         res.json({
             count: services.length,
@@ -71,7 +68,7 @@ exports.searchServices = async (req, res) => {
         });
 
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(500).json({ message: err.message });
     }
 };

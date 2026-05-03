@@ -23,7 +23,7 @@ export default function Landing() {
           
           <div className="flex items-center gap-3">
             <button
-              onClick={() => navigate("/login?role=customer")}
+              onClick={() => navigate("/login?role=student")}
               className="hidden md:block px-5 py-2 text-sm font-bold text-gray-600 hover:text-[#A63C13] transition-colors"
             >
               Login
@@ -43,10 +43,10 @@ export default function Landing() {
         {/* 🟠 IMPACT HERO SECTION */}
         <section className="grid lg:grid-cols-2 gap-16 items-center py-12 md:py-24">
           <div className="space-y-8 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 bg-orange-100/50 px-4 py-2 rounded-full border border-orange-200">
+            {/* <div className="inline-flex items-center gap-2 bg-orange-100/50 px-4 py-2 rounded-full border border-orange-200">
                <Star className="text-orange-600 fill-orange-600" size={14} />
                <span className="text-[10px] font-black uppercase tracking-widest text-orange-800">Trusted by 5000+ Families</span>
-            </div>
+            </div> */}
             
             <h2 className="text-6xl md:text-8xl font-heading font-black text-gray-900 leading-[0.9] tracking-tighter">
               Purely <span className="text-[#A63C13] italic font-brand font-light">Homemade</span> <br />
@@ -60,7 +60,7 @@ export default function Landing() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <button
-                onClick={() => navigate("/signup?role=customer")}
+                onClick={() => navigate("/signup?role=student")}
                 className="group bg-[#A63C13] text-white px-10 py-5 rounded-[24px] font-heading font-black text-lg shadow-2xl shadow-orange-200 hover:bg-gray-900 transition-all flex items-center justify-center gap-3 active:scale-95"
               >
                 Find My Tiffin
@@ -89,7 +89,7 @@ export default function Landing() {
               Explore menus from passionate home cooks in your neighborhood. Fresh ingredients, no preservatives.
             </p>
             <button
-              onClick={() => navigate("/signup?role=customer")}
+              onClick={() => navigate("/signup?role=student")}
               className="mt-8 flex items-center gap-2 font-black text-[#A63C13] uppercase tracking-widest text-xs hover:gap-4 transition-all"
             >
               Browse Menus <ArrowRight size={16} />
