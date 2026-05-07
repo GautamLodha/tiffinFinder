@@ -42,7 +42,7 @@ export default function Signup() {
       const { token, user } = response.data;
       localStorage.setItem("token", token);
 
-      if (user.role === "user") {
+      if (user.role === "student") {
         navigate("/user");
       } else {
         navigate("/provider");
@@ -205,7 +205,7 @@ export default function Signup() {
           <p className="text-sm text-center mt-8 text-gray-500 font-medium">
             Already a member?{" "}
             <button 
-              onClick={() => navigate("/login")} 
+              onClick={() => navigate(`/login?role=${user.role === "student" ? "student" : "provider"}`)} 
               className="text-[#A63C13] font-black hover:underline"
             >
               Log In
