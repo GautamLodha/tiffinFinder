@@ -3,7 +3,7 @@ import API from '../../api/axios.js'
 import { useState } from "react";
 import heroImg from "../../assets/hero2.png"; 
 import { useSearchParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
