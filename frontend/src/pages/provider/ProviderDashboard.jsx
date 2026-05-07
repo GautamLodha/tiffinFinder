@@ -268,7 +268,7 @@ const ServiceCard = ({
         <div className="mt-auto pt-6 flex justify-between items-end">
           <div className="flex flex-col">
             <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
-              Monthly
+              Per Meal
             </span>
             <span className="text-2xl font-heading font-black text-[#A63C13]">
               ₹{pricePerMonth}

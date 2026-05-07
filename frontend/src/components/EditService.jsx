@@ -19,7 +19,10 @@ export default function EditService() {
   useEffect(() => {
     const fetchService = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/service/${id}`);
+        const token = localStorage.getItem('token')
+        const response = await axios.get(`http://localhost:5000/api/user/service/${id}`,{
+          headers : {token : token}
+        });
         const { title, description, pricePerMonth, mealType, address } = response.data;
         setFormData({ title, description, pricePerMonth, mealType, address });
       } catch (err) {

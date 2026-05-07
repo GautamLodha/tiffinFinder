@@ -29,7 +29,7 @@ export default function Login() {
 
       const { token, user } = response.data;
       localStorage.setItem("token", token);
-      console.log(token);
+      // console.log(token);
       
 
       // Redirect based on role
