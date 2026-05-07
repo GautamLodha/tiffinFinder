@@ -4,9 +4,9 @@ const app = express();
 
 // 1. CORS MUST BE FIRST
 app.use(cors({
-  origin: 'http://localhost:5173', 
+  origin: 'https://chef-stream.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true 
+  credentials: true
 }));
 
 // 2. Body Parser
