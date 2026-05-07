@@ -4,7 +4,7 @@ const app = express();
 
 // 1. CORS MUST BE FIRST
 app.use(cors({
-  origin: 'https://chef-stream.vercel.app',
+  origin: 'https://chefstream.vercel.app', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
