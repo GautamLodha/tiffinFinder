@@ -205,7 +205,7 @@ export default function Signup() {
           <p className="text-sm text-center mt-8 text-gray-500 font-medium">
             Already a member?{" "}
             <button 
-              onClick={() => navigate(`/login?role=${user.role === "student" ? "student" : "provider"}`)} 
+              onClick={() => navigate(`/login?role=${role}`)} 
               className="text-[#A63C13] font-black hover:underline"
             >
               Log In
