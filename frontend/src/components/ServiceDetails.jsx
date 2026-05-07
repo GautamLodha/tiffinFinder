@@ -3,6 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ArrowLeft, Star, MapPin, Clock, Trash2, Send, MessageSquare, Phone } from 'lucide-react'; // Added Phone icon
+import API from '../api/axios';
 
 const ServiceDetails = () => {
   const { id } = useParams();
@@ -30,7 +31,7 @@ const ServiceDetails = () => {
     const token = localStorage.getItem('token');
     try {
       // Ensure your backend controller uses .populate('provider')
-      const res = await axios.get(`http://localhost:5000/api/user/service/${id}`, {
+      const res = await API.get(`/api/user/service/${id}`, {
         headers: { token: token }
       });
       setService(res.data);
@@ -51,7 +52,7 @@ const ServiceDetails = () => {
     if (!reviewText.trim()) return alert("Please write a comment");
 
     try {
-      await axios.post(`http://localhost:5000/api/user/service/${id}/review`, 
+      await API.post(`/api/user/service/${id}/review`, 
         { rating, comment: reviewText },
         { headers: { token: token } }
       );
@@ -66,7 +67,7 @@ const ServiceDetails = () => {
   const handleDeleteReview = async (reviewId) => {
     if (!window.confirm("Are you sure you want to delete this review?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/review/${reviewId}`, {
+      await API.delete(`/api/review/${reviewId}`, {
         headers: { token: token }
       });
       fetchDetails();

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ArrowLeft, Save, Loader2, Sparkles, Utensils } from 'lucide-react';
+import API from '../api/axios';
 
 export default function EditService() {
   const { id } = useParams();
@@ -20,7 +21,7 @@ export default function EditService() {
     const fetchService = async () => {
       try {
         const token = localStorage.getItem('token')
-        const response = await axios.get(`http://localhost:5000/api/user/service/${id}`,{
+        const response = await API.get(`/api/user/service/${id}`,{
           headers : {token : token}
         });
         const { title, description, pricePerMonth, mealType, address } = response.data;
@@ -44,7 +45,7 @@ export default function EditService() {
     setIsSaving(true);
     try {
       const token = localStorage.getItem("token");
-      await axios.put(`http://localhost:5000/api/provider/service/${id}`, formData, {
+      await API.put(`/api/provider/service/${id}`, formData, {
         headers: { token: `${token}` }
       });
       alert("Service updated successfully!");

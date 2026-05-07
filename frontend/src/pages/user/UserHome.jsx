@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Search, SlidersHorizontal, Star, Home, Compass, ClipboardList, User, ShoppingBag, LogOut, ChefHat, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import API from '../../api/axios';
 
 const UserHome = () => {
   const [services, setServices] = useState([]);
@@ -28,10 +29,10 @@ const UserHome = () => {
     try {
       const token = localStorage.getItem('token');
       const url = (selectedCategory === "all" && !searchQuery) 
-        ? 'http://localhost:5000/api/user' 
-        : `http://localhost:5000/api/user/search?query=${searchQuery}&category=${selectedCategory}`;
+        ? '/api/user' 
+        : `/api/user/search?query=${searchQuery}&category=${selectedCategory}`;
 
-      const response = await axios.get(url, {
+      const response = await API.get(url, {
         headers: { token: token }
       });
       setServices(response.data.services);
@@ -49,7 +50,7 @@ const UserHome = () => {
     // Debounce or immediate search logic
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:5000/api/user/search?query=${value}&category=${selectedCategory}`, {
+      const response = await API.get(`/api/user/search?query=${value}&category=${selectedCategory}`, {
         headers: { token: token }
       });
       setServices(response.data.services);

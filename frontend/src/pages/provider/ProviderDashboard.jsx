@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import API from "../../api/axios";
 
 const ProviderDashboard = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -32,8 +33,8 @@ const ProviderDashboard = () => {
     const fetchMyServices = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(
-          "http://localhost:5000/api/provider/services",
+        const response = await API.get(
+          "/api/provider/services",
           {
             headers: {
               token: `${token}`,
@@ -56,7 +57,7 @@ const ProviderDashboard = () => {
       return;
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/provider/service/${id}`, {
+      await API.delete(`/api/provider/service/${id}`, {
         headers: { token: `${token}` },
       });
       setServices(services.filter((s) => s._id !== id));

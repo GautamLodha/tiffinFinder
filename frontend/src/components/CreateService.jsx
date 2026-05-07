@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { GeoapifyContext, GeoapifyGeocoderAutocomplete } from '@geoapify/react-geocoder-autocomplete';
 import "@geoapify/geocoder-autocomplete/styles/minimal.css";
+import API from '../api/axios';
 
 const CreateService = () => {
   const navigate = useNavigate();
@@ -64,7 +65,7 @@ const CreateService = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/provider/service', data, {
+      await API.post('/api/provider/service', data, {
         headers: { 
           'Content-Type': 'multipart/form-data',
           token: `${token}`

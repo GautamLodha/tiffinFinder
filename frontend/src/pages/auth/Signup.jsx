@@ -3,6 +3,7 @@ import { User, Mail, Lock, Eye, EyeOff, Phone, MapPin, ChevronLeft, Sparkles } f
 import axios from "axios";
 import hero2 from '../../assets/hero2.png'
 import { useNavigate, useSearchParams } from "react-router-dom";
+import API from "../../api/axios";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ export default function Signup() {
     setLoading(true);
     try {
       const payload = { ...formData, role };
-      const response = await axios.post("http://localhost:5000/api/auth/signup", payload);
+      const response = await API.post("/api/auth/signup", payload);
       const { token, user } = response.data;
       localStorage.setItem("token", token);
 

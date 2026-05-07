@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ArrowLeft, User } from 'lucide-react';
+import API from '../api/axios';
 
 const ProviderProfile = () => {
   const { providerId } = useParams();
@@ -12,7 +13,7 @@ const ProviderProfile = () => {
   useEffect(() => {
     const fetchProviderData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/user/provider/${providerId}`);
+        const res = await API.get(`/api/user/provider/${providerId}`);
         setData({
           provider: res.data.services[0].provider, // Get provider details from the first item
           services: res.data.services

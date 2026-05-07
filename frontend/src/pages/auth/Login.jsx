@@ -1,4 +1,5 @@
 import { Eye, EyeOff, Lock, Mail, ChevronLeft } from "lucide-react";
+import API from '../../api/axios.js'
 import { useState } from "react";
 import heroImg from "../../assets/hero2.png"; 
 import { useSearchParams, useNavigate } from "react-router-dom";
@@ -22,7 +23,7 @@ export default function Login() {
   const handleLogin = async (e) => {
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", {
+      const response = await API.post("/api/auth/login", {
         email: formData.email,
         password: formData.password,
       });
