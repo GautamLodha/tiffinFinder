@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://chefstream.onrender.com",
+  baseURL: "https://chef-stream.onrender.com", 
 });
 
 export default API;
